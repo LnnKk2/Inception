@@ -28,7 +28,7 @@ networks:
 
 secrets:
   db_root_password:
-    ~/Inception/secrets/db_root_password.txt
+    file: ../secrets/db_root_password.txt
   db_user_password:
-    ~/Inception/secrets/db_user_password.txt
+    file: ../secrets/db_user_password.txt
   
