@@ -1,0 +1,9 @@
+# Secrets / credentials
+srcs/.env
+secrets/
+
+# Outils locaux
+.claude/
+
+# Donnees persistantes des volumes
+data/
