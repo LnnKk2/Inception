@@ -26,7 +26,7 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
     FLUSH PRIVILEGES ;
 EOF
 
-    mysql --user=mysql --bootstrap < /tmp/init.sql
+    mysqld --user=mysql --bootstrap < /tmp/init.sql
     rm -f /tmp/init.sql
 else
     echo "Database deja initialisee"
