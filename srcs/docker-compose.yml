@@ -14,6 +14,24 @@ services:
       - db_data:/var/lib/mysql
     networks:
       - inception
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+    image: wordpress
+    container_name: wordpress
+    restart: always
+    env_file:
+      - .env
+    secrets:
+      - wordpress_admin_password
+      - wordpress_db_password
+      - wordpress_scnduser_password
+    volumes:
+      - wp_data:/var/www/html
+    depends_on:
+      - mariadb
+    networks:
+      - inception
 
 volumes:
   db_data:
@@ -21,7 +39,14 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/aandreo/data/mariadb
+      device: /home/aandreo42/data/mariadb
+  wp_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/aandreo42/data/wordpress
+
 networks:
   inception:
     driver: bridge
@@ -31,4 +56,10 @@ secrets:
     file: ../secrets/db_root_password.txt
   db_user_password:
     file: ../secrets/db_user_password.txt
+  wordpress_admin_password:
+    file: ../secrets/wordpress_admin_password.txt
+  wordpress_db_password:
+    file: ../secrets/wordpress_db_password.txt
+  wordpress_scnduser_password:
+    file: ../secrets/wordpress_scnduser_password.txt
   
