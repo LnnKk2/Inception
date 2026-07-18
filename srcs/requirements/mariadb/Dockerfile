@@ -6,6 +6,8 @@ COPY conf/99-server.cnf /etc/mysql/mariadb.conf.d/
 
 COPY tools/setup.sh /usr/local/bin/
 
+RUN rm -rf /var/lib/mysql/*
+
 RUN chmod +x /usr/local/bin/setup.sh
 
 EXPOSE 3306

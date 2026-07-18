@@ -6,6 +6,9 @@ DB_USER=$MYSQL_USER
 DB_ROOT_PASSWD=$(cat /run/secrets/db_root_password)
 DB_USER_PASSWD=$(cat /run/secrets/db_user_password)
 
+mkdir -p /run/mysqld
+chown -R mysql:mysql /run/mysqld
+
 if [ ! -d "/var/lib/mysql/mysql" ]; then
     echo ">>> Premier demarrage: initialisation"
     chown -R mysql:mysql /var/lib/mysql # permet de s assurer que le dosser /var/lib/mysql appartient bien a l user mysql
@@ -24,9 +27,19 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
 
     /*recharge les privileges */
     FLUSH PRIVILEGES ;
+    
 EOF
 
-    mysqld --user=mysql --bootstrap < /tmp/init.sql
+    mysqld --user=mysql &
+
+    while ! mysqladmin ping --silent 2>/dev/null; do
+        sleep 1
+    done
+
+    mysql < /tmp/init.sql
+
+    mysqladmin -u root -p"$DB_ROOT_PASSWD" shutdown
+    wait
     rm -f /tmp/init.sql
 else
     echo "Database deja initialisee"
