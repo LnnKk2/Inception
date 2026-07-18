@@ -1,19 +1,19 @@
 services:
   mariadb:
-  build:
-    context: ./requirements/mariadb
-  image: mariadb
-  container_name: mariadb
-  restart: always
-  env_file:
-    - .env
-  secrets:
-    - db_root_password
-    - dp_user_password
-  volumes:
-    - db_data:/var/lib/mysql
-  networks:
-    - inception
+    build:
+      context: ./requirements/mariadb
+    image: mariadb
+    container_name: mariadb
+    restart: always
+    env_file:
+      - .env
+    secrets:
+      - db_root_password
+      - db_user_password
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - inception
 
 volumes:
   db_data:
